@@ -1,7 +1,7 @@
 #include <iostream>
 #include <luna/luna.h>
 
-static const std::string version{"1.0.0"};
+static const std::string version{"1.0.1"};
 
 void error_logger(luna::log_level level, const std::string &message)
 {
@@ -36,8 +36,8 @@ void access_logger(const luna::request &request, const luna::response &response)
 
 int main(int argc, char **argv)
 {
-    std::string identifier{"Pandia "+version};
-    std::cout << "============\n" << identifier << "\n============\n" << std::endl;
+    std::string name{"Pandia"};
+    std::cout << "============\n" << name << " " << version << "\n============\n" << std::endl;
 
 
     std::string path{"./"};
@@ -47,7 +47,7 @@ int main(int argc, char **argv)
     luna::set_error_logger(error_logger);
     luna::set_access_logger(access_logger);
 
-    luna::server server{luna::server::server_identifier{identifier}};
+    luna::server server{luna::server::server_identifier_and_version{name, version}};
 
     auto router = server.create_router("/");
 
