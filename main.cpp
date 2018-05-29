@@ -5,9 +5,9 @@ void error_logger(luna::log_level level, const std::string &message)
 {
     switch (level)
     {
-        case luna::log_level::DEBUG:
-            std::cerr << "[  DEBUG] " << message << std::endl;
-            break;
+//        case luna::log_level::DEBUG:
+//            std::cerr << "[  DEBUG] " << message << std::endl;
+//            break;
         case luna::log_level::INFO:
             std::cerr << "[   INFO] " << message << std::endl;
             break;
@@ -32,15 +32,19 @@ void access_logger(const luna::request &request, const luna::response &response)
               << std::endl;
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
+    std::string path{"./"};
+    if(argc > 1)
+        path = argv[1];
+
     luna::set_error_logger(error_logger);
     luna::set_access_logger(access_logger);
 
     luna::server server;
     auto router = server.create_router("/");
 
-    router->serve_files("/", "./");
+    router->serve_files("/", path);
 
 
     server.start(8273);
