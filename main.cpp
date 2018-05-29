@@ -1,6 +1,8 @@
 #include <iostream>
 #include <luna/luna.h>
 
+static const std::string version{"1.0.0"};
+
 void error_logger(luna::log_level level, const std::string &message)
 {
     switch (level)
@@ -34,6 +36,10 @@ void access_logger(const luna::request &request, const luna::response &response)
 
 int main(int argc, char **argv)
 {
+    std::string identifier{"Pandia "+version};
+    std::cout << "============\n" << identifier << "\n============\n" << std::endl;
+
+
     std::string path{"./"};
     if(argc > 1)
         path = argv[1];
@@ -41,7 +47,8 @@ int main(int argc, char **argv)
     luna::set_error_logger(error_logger);
     luna::set_access_logger(access_logger);
 
-    luna::server server;
+    luna::server server{luna::server::server_identifier{identifier}};
+
     auto router = server.create_router("/");
 
     router->serve_files("/", path);
