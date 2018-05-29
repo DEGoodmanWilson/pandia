@@ -1,0 +1,5 @@
+[requires]
+luna/[~=5.0]@DEGoodmanWilson/stable
+
+[generators]
+cmake
