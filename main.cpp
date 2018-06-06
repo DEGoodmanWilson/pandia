@@ -1,7 +1,7 @@
 #include <iostream>
 #include <luna/luna.h>
 
-static const std::string version{"1.0.1"};
+static const std::string version{"1.0.2"};
 
 void error_logger(luna::log_level level, const std::string &message)
 {
@@ -46,6 +46,8 @@ int main(int argc, char **argv)
 
     luna::set_error_logger(error_logger);
     luna::set_access_logger(access_logger);
+
+    error_logger(luna::log_level::INFO, "Serving files from `" + path + "`");
 
     luna::server server{luna::server::server_identifier_and_version{name, version}};
 
