@@ -1,7 +1,7 @@
 #include <iostream>
 #include <luna/luna.h>
 
-static const std::string version{"1.0.2"};
+static const std::string version{"1.0.3"};
 
 void error_logger(luna::log_level level, const std::string &message)
 {
