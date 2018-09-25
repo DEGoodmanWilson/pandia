@@ -2,7 +2,7 @@
 #include <luna/luna.h>
 #include "docopt/docopt.h"
 
-static const std::string version{"1.0.3"};
+static const std::string version{"1.1.0"};
 static const std::string pandia{"pandia"};
 
 void error_logger(luna::log_level level, const std::string &message)
