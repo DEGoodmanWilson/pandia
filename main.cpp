@@ -42,17 +42,19 @@ int main(int argc, char **argv)
             R"(pandia.
 
     Usage:
-      pandia [<path_to_serve>]
+      pandia [options] [<path_to_serve>]
       pandia (-h | --help)
       pandia --version
 
     Options:
       -h --help     Show this screen.
       --version     Show version.
-      path_to_serve Optional path to serve file from. [default:"./"]
+      -p <port> --port <port>           The port to run from. [default: 8273]
+      path_to_serve Optional path to serve file from. [default: ./]
     )";
 
-    std::string path{"./"};
+    std::string path;
+    uint16_t port;
 
     std::map<std::string, docopt::value> args
             = docopt::docopt(USAGE,
@@ -66,8 +68,11 @@ int main(int argc, char **argv)
         {
             path = arg.second.asString();
         }
+        if (arg.first == "--port")
+        {
+            port = arg.second.asLong();
+        }
     }
-
 
     std::string name{"Pandia"};
     std::cout << "============\n" << name << " " << version << "\n============\n" << std::endl;
@@ -84,7 +89,7 @@ int main(int argc, char **argv)
     router->serve_files("/", path);
 
 
-    server.start(8273);
+    server.start(port);
 
     return 0;
 }
