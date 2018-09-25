@@ -1,7 +1,9 @@
 #include <iostream>
 #include <luna/luna.h>
+#include "docopt/docopt.h"
 
 static const std::string version{"1.0.3"};
+static const std::string pandia{"pandia"};
 
 void error_logger(luna::log_level level, const std::string &message)
 {
@@ -36,13 +38,39 @@ void access_logger(const luna::request &request, const luna::response &response)
 
 int main(int argc, char **argv)
 {
-    std::string name{"Pandia"};
-    std::cout << "============\n" << name << " " << version << "\n============\n" << std::endl;
+    static const char USAGE[] =
+            R"(pandia.
 
+    Usage:
+      pandia [<path_to_serve>]
+      pandia (-h | --help)
+      pandia --version
+
+    Options:
+      -h --help     Show this screen.
+      --version     Show version.
+      path_to_serve Optional path to serve file from. [default:"./"]
+    )";
 
     std::string path{"./"};
-    if(argc > 1)
-        path = argv[1];
+
+    std::map<std::string, docopt::value> args
+            = docopt::docopt(USAGE,
+                             {argv + 1, argv + argc},
+                             true,               // show help if requested
+                             pandia + " " + version);  // version string
+
+    for (auto const &arg : args)
+    {
+        if ((arg.first == "<path_to_serve>") && (arg.second.isString()))
+        {
+            path = arg.second.asString();
+        }
+    }
+
+
+    std::string name{"Pandia"};
+    std::cout << "============\n" << name << " " << version << "\n============\n" << std::endl;
 
     luna::set_error_logger(error_logger);
     luna::set_access_logger(access_logger);
