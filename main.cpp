@@ -47,13 +47,13 @@ int main(int argc, char **argv)
       pandia --version
 
     Options:
-      -h --help     Show this screen.
-      --version     Show version.
-      -p <port> --port <port>           The port to run from. [default: 8273]
-      path_to_serve Optional path to serve file from. [default: ./]
+      -h --help                  Show this screen.
+      --version                  Show version.
+      -p <port> --port <port>    The port to run from. [default: 8273]
+      <path_to_serve>            Optional path to serve file from. [default: ./]
     )";
 
-    std::string path;
+    std::string path{"./"}; // docopt doesn't do defaults for arguments, only options
     uint16_t port;
 
     std::map<std::string, docopt::value> args
@@ -64,7 +64,7 @@ int main(int argc, char **argv)
 
     for (auto const &arg : args)
     {
-        if ((arg.first == "<path_to_serve>") && (arg.second.isString()))
+        if ((arg.first == "<path_to_serve>") && arg.second)
         {
             path = arg.second.asString();
         }
